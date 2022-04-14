@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+	<head> 
+	    <title>Register </title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	    	<link rel="stylesheet" th:href="@{/css/style.css}">
+	</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Home</a>
+  
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/posts">Posts </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/upload">Upload</a>
+      </li>
+      <li class="nav-item">
+         <div sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/users">Users</a></div>
+      </li>
+      <li class="nav-item">
+         <div sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></div>
+         <div sec:authorize="isAnonymous()"><a class="nav-link" href="/login">Login</a></div>
+      </li>
+    </ul>
+  </div>
+</nav>
+	
+    <form action="#" th:action="@{/register}" th:object="${register}" method="post">
+    	<div class="form-body">
+    	<div class="form-holder">
+                <div class="form-content">
+                    <div class="form-items">
+                    	<h3> Register Form</h3>
+					     	<p th:if="${register.id != null && register.id != 0 }">Id: <input type="text" th:field="*{id}" readonly/></p>
+					    	<p>Username: <input type="text" th:field="*{user}"  required/></p>
+					    	<p>Email: <input type="email" th:field="*{email}" required /></p>
+					    	<p>Password: <input type="password" th:field="*{password}" required/></p>
+					        <p th:if="${register.role != null}">Role: <input type="text" th:field="*{role}" readonly/></p>
+					        <p><input class="btn btn-primary" type="submit" value="Submit" /> <p>
+					        <p th:if="${register.password == null}"> <input  class="btn btn-primary" type="reset" value="Reset" /></p>
+					    	<a href="/">Return to Home</a>
+					    	<a href="/login">Already have an account</a>
+					    	
+					</div>
+				</div>
+			</div>
+		</div>
+    </form>
+</body>
+</html>
